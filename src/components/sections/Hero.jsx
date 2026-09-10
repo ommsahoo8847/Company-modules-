@@ -517,17 +517,30 @@ export default function Hero() {
         <RunningCarLoader />
       </div>
 
-      {/* Adjusted Bottom Right Telemetry Card */}
+      {/* Latest Generation Benchmark Card in Bottom Right */}
       <div className={`${styles.cornerLabel} ${styles.bottomRight}`} aria-hidden="true">
-        <div className={styles.telemetryCardRight}>
-          <div className={styles.telemetryHeaderRight}>
-            <span className={styles.telemetryRpm}>8,750 / 9,000 Redline</span>
+        <div className={styles.latestCarCard}>
+          <div className={styles.latestCarHeader}>
+            <span className={styles.latestCarBadge}>LATEST GEN 2026</span>
+            <span className={styles.latestCarStatus}>● APEX BENCHMARK</span>
           </div>
-          <div className={styles.telemetryBrand}>
-            GUDU Engineering · 1,800 HP
+
+          <div className={styles.latestCarName}>
+            Bugatti Tourbillon
           </div>
-          <div className={styles.telemetryCycle}>
-            Authentic Factory Telemetry
+
+          <div className={styles.latestCarSpeedRow}>
+            <span className={styles.speedPill}>TOP SPEED: 445 KM/H</span>
+            <span className={styles.speedSub}>0–100: 2.0S · 8.3L V16 HYBRID (1,800 HP)</span>
+          </div>
+
+          <div className={styles.latestCarHorizon}>
+            <span className={styles.horizonLabel}>TIME TO REPLACE IN FUTURE:</span>
+            <span className={styles.horizonValue}>~10–12 YEARS (ERA 2036+)</span>
+          </div>
+
+          <div className={styles.latestCarFooter}>
+            250 Bespoke Units · Irreplaceable Flagship Cycle
           </div>
         </div>
       </div>
