@@ -1,0 +1,205 @@
+/* ─── Contact — Obsidian Kinetic ────────────────────────────────────────────
+   Spec: design.md § Input Fields & Controls
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+/* ── Ambient glow ────────────────────────────────────────── */
+.ambientGlow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(60px);
+}
+
+/* ── Two-column layout ───────────────────────────────────── */
+.inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: var(--space-4xl);
+  }
+}
+
+/* ── Copy column ─────────────────────────────────────────── */
+.copyCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-text-high);
+}
+
+.headlineAccent {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-text-body);
+  max-width: 420px;
+}
+
+/* ── Social links ────────────────────────────────────────── */
+.social {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  text-decoration: none;
+  transition: color 180ms ease;
+  width: fit-content;
+}
+
+.socialLink:hover { color: var(--color-primary); }
+.socialLink:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
+
+.socialArrow {
+  font-size: 12px;
+  transition: transform 180ms ease;
+}
+
+.socialLink:hover .socialArrow {
+  transform: translate(2px, -2px);
+}
+
+/* ── Form column ─────────────────────────────────────────── */
+.formCol {
+  background: var(--elevation-1-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  padding: var(--space-xl);
+  backdrop-filter: var(--elevation-1-blur);
+  -webkit-backdrop-filter: var(--elevation-1-blur);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ── Form fields ─────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* Spec: design.md § Input Fields */
+.input {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-standard);
+  color: var(--color-text-high);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0.75rem 1rem;
+  outline: none;
+  width: 100%;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+  -webkit-appearance: none;
+}
+
+.input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.20);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+/* ── Success state ───────────────────────────────────────── */
+.successCard {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.successIcon {
+  font-size: 32px;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99,102,241,0.12);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 50%;
+  color: var(--color-primary);
+}
+
+.successTitle {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-high);
+  letter-spacing: -0.01em;
+}
+
+.successBody {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-subtle);
+}

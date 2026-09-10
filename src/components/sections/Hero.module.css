@@ -1,0 +1,157 @@
+/* ─── Hero — Obsidian Kinetic ───────────────────────────────────────────────
+   Spec: design.md § Hero Section
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+/* ── Ambient background radials ──────────────────────────── */
+.ambientBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 55%, rgba(99,102,241,0.09) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 30% 30%, rgba(139,92,246,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 70% 70%, rgba(6,182,212,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Canvas ──────────────────────────────────────────────── */
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* ── Corner labels ───────────────────────────────────────── */
+.cornerLabel {
+  position: absolute;
+  z-index: 10;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-disabled);
+  line-height: 1.6;
+}
+
+.topLeft    { top: 72px; left: 2rem; }
+.topRight   { top: 72px; right: 2rem; text-align: right; }
+.bottomLeft { bottom: 2rem; left: 2rem; }
+.bottomRight{ bottom: 2rem; right: 2rem; text-align: right; }
+
+@media (max-width: 768px) {
+  .cornerLabel { display: none; }
+}
+
+/* ── Hero content ────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.statusBadge {
+  pointer-events: all;
+}
+
+/* ── Title ───────────────────────────────────────────────── */
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 7vw, 88px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--color-text-high);
+}
+
+.titleGradient {
+  background: linear-gradient(135deg, #c0c1ff 0%, #8B5CF6 50%, #06B6D4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Subtitle ────────────────────────────────────────────── */
+.sub {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-subtle);
+  max-width: 480px;
+  letter-spacing: -0.01em;
+}
+
+/* ── CTA buttons ─────────────────────────────────────────── */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+  pointer-events: all;
+  margin-top: var(--space-xs);
+}
+
+/* ── Scroll indicator ────────────────────────────────────── */
+.scrollIndicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  animation: scrollFade 2s ease-in-out infinite;
+}
+
+.scrollLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.scrollLine {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--color-border-hover), transparent);
+  animation: scrollLineDrop 2s ease-in-out infinite;
+}
+
+@keyframes scrollFade {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.7; }
+}
+
+@keyframes scrollLineDrop {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollIndicator { animation: none; opacity: 0.5; }
+  .scrollLine       { animation: none; }
+}

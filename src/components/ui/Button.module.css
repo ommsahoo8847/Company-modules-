@@ -1,0 +1,82 @@
+/* ─── Button — Obsidian Kinetic ─────────────────────────────────────────────
+   Spec: design.md § Buttons
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: transform 180ms ease, box-shadow 180ms ease,
+              border-color 180ms ease, background 180ms ease, color 180ms ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── Primary ─────────────────────────────────────────────── */
+.primary {
+  padding: 0.75rem 1.75rem;
+  background: var(--gradient-primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-standard);
+  box-shadow: 0 0 20px rgba(99,102,241,0.35);
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px rgba(99,102,241,0.55);
+}
+
+.primary:active {
+  transform: translateY(0);
+}
+
+/* ── Ghost ───────────────────────────────────────────────── */
+.ghost {
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  color: var(--color-text-body);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-standard);
+}
+
+.ghost:hover {
+  border-color: var(--color-primary);
+  background: rgba(99,102,241,0.08);
+  color: var(--color-text-high);
+}
+
+/* ── Icon ────────────────────────────────────────────────── */
+.icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: var(--color-surface);
+  color: var(--color-text-subtle);
+  border-radius: var(--radius-micro);
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.icon:hover {
+  color: var(--color-text-high);
+  border-color: var(--color-border-hover);
+  background: var(--color-surface-high);
+}

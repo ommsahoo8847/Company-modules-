@@ -1,0 +1,183 @@
+/* ─── About — Obsidian Kinetic ──────────────────────────────────────────────*/
+
+.section {
+  position: relative;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+/* ── Ambient glow ────────────────────────────────────────── */
+.ambientGlow {
+  position: absolute;
+  top: 50%;
+  right: -15%;
+  width: 600px;
+  height: 600px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(60px);
+}
+
+/* ── Two-column inner ────────────────────────────────────── */
+.inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: var(--space-4xl);
+  }
+}
+
+/* ── Identity column ─────────────────────────────────────── */
+.identityCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-text-high);
+}
+
+.headlineAccent {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bio {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-text-body);
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+/* ── Skills column ───────────────────────────────────────── */
+.skillsCol {
+  position: sticky;
+  top: 80px;
+}
+
+.skillsCard {
+  background: var(--elevation-1-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  padding: var(--space-lg);
+  backdrop-filter: var(--elevation-1-blur);
+  -webkit-backdrop-filter: var(--elevation-1-blur);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ── Availability ────────────────────────────────────────── */
+.availRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.availNote {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.04em;
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+.skillsDivider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ── Tools ───────────────────────────────────────────────── */
+.skillsLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.toolsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.toolBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-micro);
+  height: 24px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.toolBadge:hover {
+  border-color: rgba(99,102,241,0.4);
+  color: var(--color-text-body);
+}
+
+/* ── Stats ───────────────────────────────────────────────── */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text-high);
+  line-height: 1;
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}

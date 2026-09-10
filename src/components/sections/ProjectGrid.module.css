@@ -1,0 +1,82 @@
+/* ─── ProjectGrid — Obsidian Kinetic ────────────────────────────────────────*/
+
+.section {
+  background: var(--color-bg);
+  position: relative;
+}
+
+/* Ambient top-of-section radial glow */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+  pointer-events: none;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-text-high);
+  margin-top: var(--space-md);
+}
+
+.headlineAccent {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtext {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-subtle);
+  max-width: 42rem;
+  line-height: 1.6;
+  margin-top: var(--space-sm);
+}
+
+/* ── Filters ─────────────────────────────────────────────── */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xl);
+}
+
+/* ── Grid ────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1100px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-xl); }
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.empty {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-subtle);
+  text-align: center;
+  padding: var(--space-2xl) 0;
+}

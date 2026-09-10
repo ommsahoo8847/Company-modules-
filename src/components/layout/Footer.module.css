@@ -1,0 +1,75 @@
+/* ─── Footer — Obsidian Kinetic ─────────────────────────────────────────────*/
+
+.footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  padding: var(--space-xl) 0;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--margin-mobile);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .inner {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 var(--margin-tablet);
+    text-align: left;
+  }
+}
+
+@media (min-width: 1024px) {
+  .inner { padding: 0 var(--margin-desktop); }
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.socialLink {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.socialLink:hover {
+  color: var(--color-primary);
+}
+
+.socialLink:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 2px;
+}
+
+.copy {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--color-text-disabled);
+}
