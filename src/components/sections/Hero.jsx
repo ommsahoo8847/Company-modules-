@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Badge } from '../ui/Badge.jsx'
 import { Button } from '../ui/Button.jsx'
 import styles from './Hero.module.css'
@@ -496,6 +496,29 @@ export default function Hero() {
   const canvasRef = useRef(null)
   useV16EngineCanvas(canvasRef)
 
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    let rafId
+    function onScroll() {
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        setScrollY(window.scrollY)
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      cancelAnimationFrame(rafId)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
+  // Calculate split offsets dynamically based on scroll down
+  const splitDist = Math.min(scrollY * 1.6, 650)
+  const splitRot = Math.min(scrollY * 0.035, 9)
+  const splitOpacity = Math.max(0, 1 - scrollY / 420)
+  const splitBlur = Math.min(scrollY * 0.015, 6)
+
   return (
     <section id="hero" className={styles.hero} aria-label="Hero section">
       {/* Background ambient glows */}
@@ -524,11 +547,35 @@ export default function Hero() {
           V16 Telemetry Active
         </Badge>
 
-        <div className={styles.titleBoard}>
+        <div
+          className={styles.titleBoard}
+          style={{
+            transform: `scale(${Math.max(0.88, 1 - scrollY / 1800)})`,
+            opacity: Math.max(0, 1 - scrollY / 460),
+          }}
+        >
           <h1 className={styles.title}>
-            <span className={styles.titleMaroon}>Apex Automotive</span>
+            <span
+              className={`${styles.titleMaroon} ${styles.splitLeft}`}
+              style={{
+                transform: `translate3d(-${splitDist}px, -${splitDist * 0.12}px, 0) rotate(-${splitRot}deg)`,
+                opacity: splitOpacity,
+                filter: `drop-shadow(0 2px 14px rgba(159, 18, 57, 0.6)) blur(${splitBlur}px)`,
+              }}
+            >
+              Apex Automotive
+            </span>
             <br />
-            <span className={styles.titleGold}>Engineering</span>
+            <span
+              className={`${styles.titleGold} ${styles.splitRight}`}
+              style={{
+                transform: `translate3d(${splitDist}px, ${splitDist * 0.12}px, 0) rotate(${splitRot}deg)`,
+                opacity: splitOpacity,
+                filter: `drop-shadow(0 4px 18px rgba(245, 158, 11, 0.45)) blur(${splitBlur}px)`,
+              }}
+            >
+              Engineering
+            </span>
           </h1>
         </div>
 

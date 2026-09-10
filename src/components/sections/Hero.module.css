@@ -151,6 +151,14 @@
   display: inline-block;
 }
 
+/* ── Split Animation on Scroll ───────────────────────────── */
+.splitLeft,
+.splitRight {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+  transition: transform 0.08s ease-out, opacity 0.1s ease-out;
+}
+
 /* ── Subtitle & Quote ────────────────────────────────────── */
 .subWrapper {
   display: flex;
