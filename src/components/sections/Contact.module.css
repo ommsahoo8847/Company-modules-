@@ -4,7 +4,9 @@
 
 .section {
   position: relative;
-  background: var(--color-surface);
+  background: rgba(18, 18, 22, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   overflow: hidden;
 }
 

@@ -30,13 +30,13 @@ export default function About() {
           <p className={styles.bio}>
             Automotive engineering at the extreme is an art form driven by physics, metallurgy,
             and computational aerodynamics. From Bugatti’s monumental naturally aspirated V16 hybrid
-            orchestrated with horological mechanical precision, to Ferrari’s bespoke one-off aerodynamic
-            sculptures crafted in Maranello.
+            orchestrated with horological mechanical precision, to Kalmar’s 930 HP pushrod retro hypercar,
+            and Ferrari’s bespoke one-off aerodynamic sculptures crafted in Maranello.
           </p>
           <p className={styles.bio}>
             This archive curates and analyzes peak benchmarks across hypercars, customer GT4 racing
-            programs, and endurance legends like Peugeot Sport’s diesel Le Mans titan. Every metric
-            is verified against authentic manufacturer factory specifications and race telemetry.
+            programs, carbon-monocell spiders, and endurance legends like Peugeot Sport’s diesel Le Mans titan.
+            Every metric is verified against authentic manufacturer factory specifications and race telemetry.
           </p>
 
           <div className={styles.ctaRow}>
@@ -80,7 +80,7 @@ export default function About() {
                 { value: '1,800 HP', label: 'Max Output' },
                 { value: '445 km/h', label: 'Top Velocity' },
                 { value: '1,200 Nm', label: 'Le Mans Peak' },
-                { value: '4',        label: 'Marques' },
+                { value: '6',        label: 'Marques' },
               ].map(stat => (
                 <div key={stat.label} className={styles.stat}>
                   <span className={styles.statValue}>{stat.value}</span>

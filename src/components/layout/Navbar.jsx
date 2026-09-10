@@ -5,12 +5,12 @@ import styles from './Navbar.module.css'
 
 const TICKER_ITEMS = [
   'Bugatti Tourbillon · 1,800 HP V16 Hybrid',
+  'Kalmar 9X9 · 930 HP AWD Retro Hypercar',
   'Ferrari HC25 · Special Projects 720 CV Twin-Turbo V8',
+  'McLaren 12C Spider · 625 PS Carbon MonoCell',
   'BMW M4 GT4 · S58 M TwinPower Turbo 550 HP',
   'Peugeot 908 HDi FAP · LMP1 Le Mans Champion 1,200 Nm',
-  'Telemetry · 445 km/h Top Velocity',
-  'Horology · Swiss Skeletonized Analog Cockpit',
-  'Active Aerodynamics · Carbon Monocoque Architecture',
+  '3D V16 Firing Cycle Telemetry Active',
 ]
 
 /* Duplicate for seamless infinite scroll */

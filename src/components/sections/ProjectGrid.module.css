@@ -1,7 +1,9 @@
 /* ─── ProjectGrid — Obsidian Kinetic ────────────────────────────────────────*/
 
 .section {
-  background: var(--color-bg);
+  background: rgba(10, 10, 12, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   position: relative;
 }
 
