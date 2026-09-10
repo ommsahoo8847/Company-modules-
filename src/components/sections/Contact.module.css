@@ -4,9 +4,7 @@
 
 .section {
   position: relative;
-  background: rgba(18, 18, 22, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -56,10 +54,11 @@
 }
 
 .headlineAccent {
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #E0F2FE 0%, #67E8F9 35%, #06B6D4 70%, #0891B2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 0 25px rgba(6, 182, 212, 0.4));
 }
 
 .body {
