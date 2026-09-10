@@ -13,7 +13,7 @@ export default function Footer() {
     <footer className={styles.footer} aria-label="Site footer">
       <div className={styles.inner}>
         {/* Brand */}
-        <span className={styles.brand}>Obsidian Kinetic</span>
+        <span className={styles.brand}>GUDU</span>
 
         {/* Social links */}
         <nav aria-label="Social links" className={styles.social}>

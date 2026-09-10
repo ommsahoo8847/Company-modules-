@@ -190,7 +190,7 @@ export default function Hero() {
         V16 Hybrid · Twin-Turbo V8<br />S58 Turbo I6 · V12 HDi
       </div>
       <div className={`${styles.cornerLabel} ${styles.bottomRight}`} aria-hidden="true">
-        Obsidian<br />Kinetic
+        GUDU<br />Engineering
       </div>
 
       {/* Hero content */}

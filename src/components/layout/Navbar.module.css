@@ -18,6 +18,39 @@
   overflow: hidden;
 }
 
+/* ── Brand Logo ──────────────────────────────────────────── */
+.brandLogo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 1.25rem;
+  text-decoration: none;
+  border-right: 1px solid var(--color-border);
+  height: 100%;
+  flex-shrink: 0;
+  transition: opacity 200ms ease;
+}
+
+.brandLogo:hover {
+  opacity: 0.85;
+}
+
+.brandText {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.14em;
+  color: var(--color-text-high);
+}
+
+.brandDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-tertiary);
+  box-shadow: 0 0 8px var(--color-tertiary);
+}
+
 /* ── Ticker ──────────────────────────────────────────────── */
 .tickerWrapper {
   flex: 1;

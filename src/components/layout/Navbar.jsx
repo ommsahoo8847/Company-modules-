@@ -22,6 +22,12 @@ export default function Navbar() {
 
   return (
     <nav className={styles.navbar} aria-label="Site navigation">
+      {/* Brand logo */}
+      <a href="#hero" className={styles.brandLogo} aria-label="Gudu Home">
+        <span className={styles.brandText}>GUDU</span>
+        <span className={styles.brandDot} aria-hidden="true" />
+      </a>
+
       {/* Scrolling ticker */}
       <div className={styles.tickerWrapper} aria-hidden="true">
         <div className={styles.tickerTrack}>
