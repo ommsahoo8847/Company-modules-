@@ -524,10 +524,13 @@ export default function Hero() {
           V16 Telemetry Active
         </Badge>
 
-        <h1 className={styles.title}>
-          Apex Automotive<br />
-          <span className={styles.titleGradient}>Engineering</span>
-        </h1>
+        <div className={styles.titleBoard}>
+          <h1 className={styles.title}>
+            <span className={styles.titleMaroon}>Apex Automotive</span>
+            <br />
+            <span className={styles.titleGold}>Engineering</span>
+          </h1>
+        </div>
 
         <p className={styles.sub}>
           High-performance hypercars, bespoke one-offs, and Le Mans legends.<br />
