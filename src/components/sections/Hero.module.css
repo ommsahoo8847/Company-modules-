@@ -56,6 +56,111 @@
   .cornerLabel { display: none; }
 }
 
+/* ── Telemetry HUD Corner Cards ──────────────────────────── */
+.telemetryCard,
+.telemetryCardRight {
+  background: rgba(12, 12, 18, 0.72);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  border-radius: var(--radius-standard);
+  padding: 0.65rem 0.95rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 320px;
+  pointer-events: all;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.telemetryCard:hover {
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 25px rgba(6, 182, 212, 0.16);
+}
+
+.telemetryCardRight {
+  align-items: flex-end;
+  text-align: right;
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.08);
+}
+
+.telemetryCardRight:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 158, 11, 0.16);
+}
+
+.telemetryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.telemetryHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.telemetryDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-tertiary, #06B6D4);
+  box-shadow: 0 0 8px var(--color-tertiary);
+  animation: pulseDot 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseDot {
+  from { opacity: 0.5; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+.telemetryTitle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-tertiary, #06B6D4);
+}
+
+.telemetryRpm {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #FDE68A;
+}
+
+.telemetryEngines {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-text-high);
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+
+.telemetryBrand {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-text-high);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.telemetryCycle {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 /* ── Hero content ────────────────────────────────────────── */
 .content {
   position: relative;

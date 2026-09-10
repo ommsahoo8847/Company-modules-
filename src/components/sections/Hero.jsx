@@ -463,22 +463,6 @@ function useV16EngineCanvas(canvasRef) {
         item.draw()
       }
 
-      // 5. Draw High-Tech Engine Telemetry HUD
-      ctx.font = '10px "JetBrains Mono", monospace'
-      ctx.fillStyle = 'rgba(6, 182, 212, 0.7)'
-      ctx.fillText('90° V16 QUAD-BANK TELEMETRY', 24, H - 36)
-
-      const activeCyl = Math.floor((t * 6.0) % 16)
-      ctx.fillStyle = 'rgba(245, 158, 11, 0.85)'
-      ctx.fillText(`FIRING CYCLE: CYL #${FIRING_ORDER[activeCyl] + 1} ACTIVE`, 24, H - 20)
-
-      ctx.textAlign = 'right'
-      ctx.fillStyle = 'rgba(139, 92, 246, 0.75)'
-      ctx.fillText('RPM: 8,750 / 9,000 REDLINE', W - 24, H - 36)
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
-      ctx.fillText('DISPLACEMENT: 8.3L · 1,800 HP HYBRID', W - 24, H - 20)
-      ctx.textAlign = 'left'
-
       rafId = requestAnimationFrame(render)
     }
 
@@ -534,11 +518,35 @@ export default function Hero() {
       <div className={`${styles.cornerLabel} ${styles.topRight}`} aria-hidden="true">
         Authentic Specs<br />Factory Telemetry
       </div>
+      {/* Adjusted Bottom Left Telemetry Card */}
       <div className={`${styles.cornerLabel} ${styles.bottomLeft}`} aria-hidden="true">
-        V16 Hybrid · Twin-Turbo V8<br />S58 Turbo I6 · V12 HDi
+        <div className={styles.telemetryCard}>
+          <div className={styles.telemetryHeader}>
+            <span className={styles.telemetryDot} />
+            <span className={styles.telemetryTitle}>90° V16 Telemetry</span>
+          </div>
+          <div className={styles.telemetryEngines}>
+            V16 Hybrid · Twin-Turbo V8 · S58 I6 · V12 HDi
+          </div>
+          <div className={styles.telemetryCycle}>
+            Quad-Bank Firing Cycle Active
+          </div>
+        </div>
       </div>
+
+      {/* Adjusted Bottom Right Telemetry Card */}
       <div className={`${styles.cornerLabel} ${styles.bottomRight}`} aria-hidden="true">
-        GUDU<br />Engineering
+        <div className={styles.telemetryCardRight}>
+          <div className={styles.telemetryHeaderRight}>
+            <span className={styles.telemetryRpm}>8,750 / 9,000 Redline</span>
+          </div>
+          <div className={styles.telemetryBrand}>
+            GUDU Engineering · 1,800 HP
+          </div>
+          <div className={styles.telemetryCycle}>
+            Authentic Factory Telemetry
+          </div>
+        </div>
       </div>
 
       {/* Hero content */}
