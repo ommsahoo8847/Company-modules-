@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Badge } from '../ui/Badge.jsx'
 import { Button } from '../ui/Button.jsx'
+import { RunningCarLoader } from '../ui/RunningCarLoader.jsx'
 import styles from './Hero.module.css'
 
 /* ── 3D V16 Car Engine Canvas Simulation ── */
@@ -511,27 +512,9 @@ export default function Hero() {
       {/* 3D V16 Engine Canvas */}
       <canvas ref={canvasRef} id="v16-engine-canvas" className={styles.canvas} aria-hidden="true" />
 
-      {/* Corner meta labels */}
-      <div className={`${styles.cornerLabel} ${styles.topLeft}`} aria-hidden="true">
-        Apex Machines<br />Technical Archive
-      </div>
-      <div className={`${styles.cornerLabel} ${styles.topRight}`} aria-hidden="true">
-        Authentic Specs<br />Factory Telemetry
-      </div>
-      {/* Adjusted Bottom Left Telemetry Card */}
+      {/* Running Car Loader in Bottom Left Corner */}
       <div className={`${styles.cornerLabel} ${styles.bottomLeft}`} aria-hidden="true">
-        <div className={styles.telemetryCard}>
-          <div className={styles.telemetryHeader}>
-            <span className={styles.telemetryDot} />
-            <span className={styles.telemetryTitle}>90° V16 Telemetry</span>
-          </div>
-          <div className={styles.telemetryEngines}>
-            V16 Hybrid · Twin-Turbo V8 · S58 I6 · V12 HDi
-          </div>
-          <div className={styles.telemetryCycle}>
-            Quad-Bank Firing Cycle Active
-          </div>
-        </div>
+        <RunningCarLoader />
       </div>
 
       {/* Adjusted Bottom Right Telemetry Card */}
