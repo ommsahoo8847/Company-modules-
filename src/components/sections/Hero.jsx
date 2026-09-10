@@ -532,10 +532,16 @@ export default function Hero() {
           </h1>
         </div>
 
-        <p className={styles.sub}>
-          High-performance hypercars, bespoke one-offs, and Le Mans legends.<br />
-          Explore authentic manufacturer specifications, powertrain telemetry, and aerodynamic dossiers.
-        </p>
+        <div className={styles.subWrapper}>
+          <p className={styles.sub}>
+            High-performance super cars, powerful V-engines, and aerodynamics.
+          </p>
+          <blockquote className={styles.quote}>
+            <span className={styles.quoteMark}>“</span>
+            Speed is not a choice, it's a requirement.
+            <span className={styles.quoteMark}>”</span>
+          </blockquote>
+        </div>
 
         <div className={styles.actions}>
           <Button as="a" href="#work" variant="primary" id="view-work-btn">
