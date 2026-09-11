@@ -1,13 +1,35 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Badge } from './Badge.jsx'
 import { Button } from './Button.jsx'
+import { playBottleCapPop, playClosePop } from '../../utils/audio.js'
 import styles from './SpecModal.module.css'
 
 export function SpecModal({ car, onClose }) {
+  const [photoLightboxOpen, setPhotoLightboxOpen] = useState(false)
+
+  const handleCloseModal = () => {
+    playClosePop()
+    if (onClose) onClose()
+  }
+
+  const handleOpenPhoto = () => {
+    playBottleCapPop()
+    setPhotoLightboxOpen(true)
+  }
+
+  const handleClosePhoto = () => {
+    playClosePop()
+    setPhotoLightboxOpen(false)
+  }
+
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === 'Escape') {
-        onClose()
+        if (photoLightboxOpen) {
+          handleClosePhoto()
+        } else {
+          handleCloseModal()
+        }
       }
     }
     window.addEventListener('keydown', handleKeyDown)
@@ -16,7 +38,7 @@ export function SpecModal({ car, onClose }) {
       window.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = ''
     }
-  }, [onClose])
+  }, [photoLightboxOpen, onClose])
 
   if (!car) return null
 
@@ -35,52 +57,74 @@ export function SpecModal({ car, onClose }) {
   } = car
 
   return (
-    <div
-      className={styles.backdrop}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-car-title"
-    >
+    <>
       <div
-        className={styles.modal}
-        onClick={e => e.stopPropagation()}
+        className={styles.backdrop}
+        onClick={handleCloseModal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-car-title"
       >
-        {/* Close Button */}
-        <button
-          className={styles.closeBtn}
-          onClick={onClose}
-          aria-label="Close specifications modal"
+        <div
+          className={styles.modal}
+          onClick={e => e.stopPropagation()}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
+          {/* Close Button */}
+          <button
+            className={styles.closeBtn}
+            onClick={handleCloseModal}
+            aria-label="Close specifications modal"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
 
-        {/* Modal Header */}
-        <div className={styles.header}>
-          <div className={styles.companyBadgeRow}>
-            <span className={styles.companyTag}>{company}</span>
-            <span className={styles.companyDivider}>•</span>
-            <span className={styles.companyFullName}>{companyFull}</span>
-            <Badge variant="tech" className={styles.yearBadge}>{year}</Badge>
+          {/* Modal Header */}
+          <div className={styles.header}>
+            <div className={styles.companyBadgeRow}>
+              <span className={styles.companyTag}>{company}</span>
+              <span className={styles.companyDivider}>•</span>
+              <span className={styles.companyFullName}>{companyFull}</span>
+              <Badge variant="tech" className={styles.yearBadge}>{year}</Badge>
+            </div>
+            <h2 id="modal-car-title" className={styles.title}>{title}</h2>
+            <p className={styles.tagline}>{car.tagline}</p>
           </div>
-          <h2 id="modal-car-title" className={styles.title}>{title}</h2>
-          <p className={styles.tagline}>{car.tagline}</p>
-        </div>
 
-        {/* Hero Media Preview */}
-        <div className={styles.mediaWrap}>
-          <img src={image} alt={`${title} by ${company}`} className={styles.image} />
-          <div className={styles.mediaOverlay}>
-            <div className={styles.mediaTags}>
-              {tags.map(t => (
-                <span key={t} className={styles.tagPill}>{t}</span>
-              ))}
+          {/* Hero Media Preview (Clickable to open high-res photo lightbox) */}
+          <div
+            className={styles.mediaWrap}
+            onClick={handleOpenPhoto}
+            role="button"
+            tabIndex={0}
+            aria-label="Enlarge high-resolution photo"
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleOpenPhoto()
+              }
+            }}
+          >
+            <img src={image} alt={`${title} by ${company}`} className={styles.image} />
+            <div className={styles.zoomHintBadge}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+              <span>Tap photo to expand</span>
+            </div>
+            <div className={styles.mediaOverlay}>
+              <div className={styles.mediaTags}>
+                {tags.map(t => (
+                  <span key={t} className={styles.tagPill}>{t}</span>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
         {/* Modal Body */}
         <div className={styles.body}>
@@ -168,20 +212,76 @@ export function SpecModal({ car, onClose }) {
 
         {/* Modal Footer */}
         <div className={styles.footer}>
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="ghost" onClick={handleCloseModal}>
             Close Dossier
           </Button>
           <Button
-            as="a"
-            href={image}
-            target="_blank"
-            rel="noopener noreferrer"
             variant="primary"
+            onClick={handleOpenPhoto}
+            aria-label="View high-resolution photo"
           >
-            Open High-Res Photo (Full Size)
+            🔍 View High-Res Photo
           </Button>
         </div>
       </div>
     </div>
+
+    {/* Fullscreen Photo Lightbox Modal */}
+    {photoLightboxOpen && (
+      <div
+        className={styles.photoLightboxBackdrop}
+        onClick={handleClosePhoto}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Photo viewer for ${title}`}
+      >
+        <div
+          className={styles.photoLightboxContent}
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Close Photo Lightbox Button */}
+          <button
+            className={styles.photoCloseBtn}
+            onClick={handleClosePhoto}
+            aria-label="Close photo preview"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          {/* Full Resolution Photo */}
+          <div className={styles.photoFrame} onClick={handleClosePhoto}>
+            <img
+              src={image}
+              alt={`${title} full high-resolution vehicle photo`}
+              className={styles.fullPhoto}
+            />
+          </div>
+
+          {/* Lightbox Info Bar */}
+          <div className={styles.photoInfoBar}>
+            <div className={styles.photoMeta}>
+              <span className={styles.photoCompany}>{company}</span>
+              <span className={styles.photoTitle}>{title} ({year})</span>
+            </div>
+            <div className={styles.photoActions}>
+              <span className={styles.photoHint}>Tap anywhere or ESC to close</span>
+              <a
+                href={image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.photoExternalLink}
+                title="Open original file in new tab"
+              >
+                Raw File ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   )
 }

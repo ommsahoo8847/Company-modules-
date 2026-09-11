@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from './Footer.module.css'
 
+// Real profile URLs
 const SOCIAL_LINKS = [
-  { id: 'footer-github',   href: 'https://github.com',   label: 'GitHub' },
-  { id: 'footer-twitter',  href: 'https://twitter.com',  label: 'Twitter' },
-  { id: 'footer-linkedin', href: 'https://linkedin.com', label: 'LinkedIn' },
-  { id: 'footer-behance',  href: 'https://behance.net',  label: 'Behance' },
+  { id: 'footer-github',   href: 'https://github.com/ommsahoo8847',                          label: 'GitHub'   },
+  { id: 'footer-x',        href: 'https://x.com/_Omm_Sahoo_',                               label: 'X'        },
+  { id: 'footer-linkedin', href: 'https://www.linkedin.com/in/omm-prakash-sahoo-7650bb379/', label: 'LinkedIn' },
 ]
 
 export default function Footer() {

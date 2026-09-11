@@ -1,4 +1,5 @@
 import React from 'react'
+import { playBottleCapPop } from '../../utils/audio.js'
 import styles from './ProjectCard.module.css'
 
 /**
@@ -8,17 +9,22 @@ import styles from './ProjectCard.module.css'
 export function ProjectCard({ project, onSelect }) {
   const { title, company, tagline, tags, year, image, quickSpecs } = project
 
+  const handleTrigger = () => {
+    playBottleCapPop()
+    if (onSelect) onSelect(project)
+  }
+
   return (
     <article
       className={styles.card}
       aria-label={`Vehicle: ${title} by ${company}`}
-      onClick={() => onSelect && onSelect(project)}
+      onClick={handleTrigger}
       tabIndex={0}
       role="button"
       onKeyDown={e => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault()
-          onSelect && onSelect(project)
+          handleTrigger()
         }
       }}
     >
@@ -78,7 +84,7 @@ export function ProjectCard({ project, onSelect }) {
             className={styles.inspectBtn}
             onClick={(e) => {
               e.stopPropagation()
-              onSelect && onSelect(project)
+              handleTrigger()
             }}
           >
             Telemetry & Specs →

@@ -110,7 +110,8 @@
   flex-shrink: 0;
 }
 
-.themeBtn {
+.themeBtn,
+.soundBtn {
   flex-shrink: 0;
 }
 

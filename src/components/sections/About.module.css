@@ -124,6 +124,14 @@
   color: var(--color-tertiary, #06b6d4);
 }
 
+.tapHint {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-disabled, rgba(255,255,255,0.28));
+  letter-spacing: 0.04em;
+  margin-top: -4px;
+}
+
 .toolsGrid {
   display: flex;
   flex-wrap: wrap;
@@ -140,16 +148,40 @@
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius-micro);
-  height: 24px;
+  height: 26px;
   padding: 0 8px;
   display: inline-flex;
   align-items: center;
-  transition: border-color 180ms ease, color 180ms ease;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 180ms ease;
+  text-align: left;
 }
 
 .toolBadge:hover {
-  border-color: rgba(99,102,241,0.4);
-  color: var(--color-text-body);
+  border-color: rgba(99,102,241,0.55);
+  color: var(--color-text-high);
+  background: rgba(99,102,241,0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99,102,241,0.18);
+}
+
+.toolBadge:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.badgeArrow {
+  font-size: 12px;
+  color: var(--color-tertiary, #06b6d4);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all 160ms ease;
+  font-weight: 400;
+}
+
+.toolBadge:hover .badgeArrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* ── Stats ───────────────────────────────────────────────── */

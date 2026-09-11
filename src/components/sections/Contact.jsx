@@ -2,26 +2,90 @@ import React, { useState } from 'react'
 import { Button } from '../ui/Button.jsx'
 import styles from './Contact.module.css'
 
+// Real profile URLs
 const SOCIAL = [
-  { id: 'contact-github',   href: 'https://github.com',   label: 'GitHub'   },
-  { id: 'contact-twitter',  href: 'https://twitter.com',  label: 'Twitter'  },
-  { id: 'contact-linkedin', href: 'https://linkedin.com', label: 'LinkedIn' },
-  { id: 'contact-behance',  href: 'https://behance.net',  label: 'Behance'  },
+  { id: 'contact-github',   href: 'https://github.com/ommsahoo8847',                          label: 'GitHub'   },
+  { id: 'contact-x',        href: 'https://x.com/_Omm_Sahoo_',                               label: 'X'        },
+  { id: 'contact-linkedin', href: 'https://www.linkedin.com/in/omm-prakash-sahoo-7650bb379/', label: 'LinkedIn' },
 ]
+
+// Secure server-side endpoint — API key never reaches the browser
+const API_URL = '/api/contact'
+
+function validate({ name, email, message }) {
+  const errs = {}
+  if (!name.trim() || name.trim().length < 2)
+    errs.name = 'Please enter your name (at least 2 characters).'
+  if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
+    errs.email = 'Please enter a valid email address.'
+  if (!message.trim() || message.trim().length < 10)
+    errs.message = 'Please enter a message (at least 10 characters).'
+  return errs
+}
 
 export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState({})
+  const [submitted,   setSubmitted]   = useState(false)
+  const [sending,     setSending]     = useState(false)
+  const [error,       setError]       = useState(null)
 
   function handleChange(e) {
-    setFormState(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setFormState(prev => ({ ...prev, [name]: value }))
+    // Clear the field error as the user types
+    if (fieldErrors[name]) setFieldErrors(prev => ({ ...prev, [name]: undefined }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    // Formspree-ready: change action to https://formspree.io/f/YOUR_ID
-    setSubmitted(true)
+
+    // Client-side validation
+    const errs = validate(formState)
+    if (Object.keys(errs).length) {
+      setFieldErrors(errs)
+      return
+    }
+
+    // Prevent duplicate submissions
+    if (sending) return
+    setSending(true)
+    setError(null)
+    setFieldErrors({})
+
+    const timestamp = new Date().toLocaleString('en-IN', {
+      dateStyle: 'full',
+      timeStyle: 'short',
+      timeZone:  'Asia/Kolkata',
+    })
+
+    try {
+      const res = await fetch(API_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:      formState.name.trim(),
+          email:     formState.email.trim(),
+          message:   formState.message.trim(),
+          timestamp,
+          pageUrl:   window.location.href,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (res.ok && data.ok) {
+        setSubmitted(true)
+      } else {
+        setError(data.error || 'Something went wrong. Please try again.')
+      }
+    } catch {
+      setError('Network error. Please check your connection and try again.')
+    } finally {
+      setSending(false)
+    }
   }
+
 
   return (
     <section id="contact" className={`${styles.section} section`} aria-label="Contact section">
@@ -91,7 +155,14 @@ export default function Contact() {
                   autoComplete="name"
                   placeholder="Your name"
                   className={styles.input}
+                  aria-describedby={fieldErrors.name ? 'err-name' : undefined}
+                  aria-invalid={!!fieldErrors.name}
                 />
+                {fieldErrors.name && (
+                  <p id="err-name" role="alert" style={{ color: '#ef4444', fontSize: '0.78rem', marginTop: '4px' }}>
+                    {fieldErrors.name}
+                  </p>
+                )}
               </div>
 
               <div className={styles.field}>
@@ -106,7 +177,14 @@ export default function Contact() {
                   autoComplete="email"
                   placeholder="your@email.com"
                   className={styles.input}
+                  aria-describedby={fieldErrors.email ? 'err-email' : undefined}
+                  aria-invalid={!!fieldErrors.email}
                 />
+                {fieldErrors.email && (
+                  <p id="err-email" role="alert" style={{ color: '#ef4444', fontSize: '0.78rem', marginTop: '4px' }}>
+                    {fieldErrors.email}
+                  </p>
+                )}
               </div>
 
               <div className={styles.field}>
@@ -120,18 +198,32 @@ export default function Contact() {
                   rows={5}
                   placeholder="Tell me about your project..."
                   className={`${styles.input} ${styles.textarea}`}
+                  aria-describedby={fieldErrors.message ? 'err-message' : undefined}
+                  aria-invalid={!!fieldErrors.message}
                 />
+                {fieldErrors.message && (
+                  <p id="err-message" role="alert" style={{ color: '#ef4444', fontSize: '0.78rem', marginTop: '4px' }}>
+                    {fieldErrors.message}
+                  </p>
+                )}
               </div>
 
+              {error && (
+                <p role="alert" style={{ color: '#ef4444', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
+                  {error}
+                </p>
+              )}
               <Button
                 type="submit"
                 variant="primary"
                 id="contact-submit-btn"
-                style={{ width: '100%', justifyContent: 'center' }}
+                disabled={sending}
+                style={{ width: '100%', justifyContent: 'center', opacity: sending ? 0.7 : 1 }}
               >
-                Send Message
+                {sending ? 'Sending…' : 'Send Message'}
               </Button>
             </form>
+
           )}
         </div>
       </div>

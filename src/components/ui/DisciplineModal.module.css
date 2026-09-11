@@ -1,0 +1,387 @@
+/* ─── Discipline Modal — Full Knowledge Panel ─────────────────────────────── */
+
+/* Backdrop */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(5, 5, 8, 0.8);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  animation: backdropIn 0.25s ease-out;
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide-in panel from the right */
+.panel {
+  position: relative;
+  background: var(--color-surface, #111114);
+  border-left: 1px solid var(--color-border, #26262e);
+  width: 100%;
+  max-width: 560px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Accent glow blob behind panel */
+.accentGlow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(ellipse, var(--accent, #06b6d4) 0%, transparent 70%);
+  opacity: 0.06;
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+/* Close Button */
+.closeBtn {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 20;
+  background: rgba(30, 30, 38, 0.8);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-high);
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: var(--accent, #06b6d4);
+  border-color: var(--accent, #06b6d4);
+  transform: rotate(90deg);
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.header {
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--accent-rgb, 6, 182, 212), 0.04) 0%,
+    transparent 100%
+  );
+}
+
+.iconRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.icon {
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px var(--accent, #06b6d4));
+}
+
+.categoryPill {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent, #06b6d4);
+  background: rgba(var(--accent-rgb, 6, 182, 212), 0.1);
+  border: 1px solid rgba(var(--accent-rgb, 6, 182, 212), 0.25);
+  border-left: 3px solid var(--accent, #06b6d4);
+  padding: 0.25rem 0.6rem 0.25rem 0.5rem;
+  border-radius: 0 var(--radius-micro) var(--radius-micro) 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-high);
+  line-height: 1.15;
+  margin-bottom: 0.4rem;
+}
+
+.tagline {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-subtle);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ── Scrollable Body ─────────────────────────────────────── */
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.body::-webkit-scrollbar {
+  width: 4px;
+}
+.body::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+/* ── Sections ────────────────────────────────────────────── */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.sectionDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent, #06b6d4);
+  box-shadow: 0 0 8px var(--accent, #06b6d4);
+  flex-shrink: 0;
+}
+
+.para {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--color-text-body);
+}
+
+/* ── Metrics Grid ────────────────────────────────────────── */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+}
+
+.metricCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card, 0.5rem);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.metricCard:hover {
+  border-color: var(--accent, #06b6d4);
+  background: rgba(var(--accent-rgb, 6, 182, 212), 0.04);
+}
+
+.metricValue {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-high);
+  letter-spacing: -0.02em;
+}
+
+.metricLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* ── Key Facts ───────────────────────────────────────────── */
+.factsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.factItem {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-micro);
+  border-left: 2px solid rgba(var(--accent-rgb, 6, 182, 212), 0.3);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.factItem:hover {
+  border-left-color: var(--accent, #06b6d4);
+  background: rgba(var(--accent-rgb, 6, 182, 212), 0.05);
+}
+
+.factBullet {
+  font-family: var(--font-mono);
+  color: var(--accent, #06b6d4);
+  font-size: 1rem;
+  line-height: 1.6;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+/* ── Related Car Pills ───────────────────────────────────── */
+.carPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.carPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent, #06b6d4);
+  background: rgba(var(--accent-rgb, 6, 182, 212), 0.08);
+  border: 1px solid rgba(var(--accent-rgb, 6, 182, 212), 0.2);
+  border-radius: 9999px;
+  padding: 0.3rem 0.8rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.carPill:hover {
+  background: rgba(var(--accent-rgb, 6, 182, 212), 0.2);
+  border-color: var(--accent, #06b6d4);
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.carPill svg {
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+
+.carPill:hover svg {
+  transform: translateX(3px);
+  opacity: 1;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.footer {
+  padding: 1rem 2rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--color-surface);
+  flex-shrink: 0;
+}
+
+.footerClose {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-text-subtle);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-micro);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.footerClose:hover {
+  color: var(--color-text-high);
+  border-color: var(--color-border-hover);
+}
+
+.footerExplore {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent, #06b6d4);
+  text-decoration: none;
+  background: rgba(var(--accent-rgb, 6, 182, 212), 0.1);
+  border: 1px solid rgba(var(--accent-rgb, 6, 182, 212), 0.25);
+  border-radius: var(--radius-micro);
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.footerExplore:hover {
+  background: rgba(var(--accent-rgb, 6, 182, 212), 0.2);
+  color: #fff;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .panel {
+    max-width: 100%;
+  }
+  .header, .body {
+    padding: 1.5rem 1.25rem;
+  }
+  .footer {
+    padding: 1rem 1.25rem;
+  }
+  .title {
+    font-size: 1.4rem;
+  }
+  .metricsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
