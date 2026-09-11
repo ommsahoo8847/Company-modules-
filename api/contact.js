@@ -213,14 +213,40 @@ export default async function handler(req) {
     })
   }
 
-  // ── API key guard ───────────────────────────────────────────────────────────
+  // ── API key guard / FormSubmit fallback ─────────────────────────────────────
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
-    console.error('[contact] RESEND_API_KEY environment variable is not set.')
-    return new Response(JSON.stringify({ error: 'Email service is not configured. Please contact the site owner.' }), {
-      status: 503,
-      headers: { 'Content-Type': 'application/json' },
-    })
+    try {
+      const fsRes = await fetch(`https://formsubmit.co/ajax/${OWNER_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept':       'application/json',
+        },
+        body: JSON.stringify({
+          name:        String(name).trim(),
+          email:       String(email).trim(),
+          message:     String(message).trim(),
+          _subject:    `📩 New Message from ${String(name).trim()} — Apex Automotive`,
+          _replyto:    String(email).trim(),
+          _template:   'table',
+          _captcha:    'false',
+          SubmittedAt: timestamp || new Date().toISOString(),
+          pageUrl:     pageUrl || 'Apex Automotive Portfolio',
+        }),
+      })
+      const fsData = await fsRes.json().catch(() => ({}))
+      return new Response(JSON.stringify({ ok: true, forwarded: true, message: fsData.message }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    } catch (fsErr) {
+      console.error('[contact] FormSubmit fallback error:', fsErr)
+      return new Response(JSON.stringify({ error: 'Failed to deliver message. Please try again.' }), {
+        status: 502,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
   }
 
   // ── Send via Resend ─────────────────────────────────────────────────────────

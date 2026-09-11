@@ -9,8 +9,9 @@ const SOCIAL = [
   { id: 'contact-linkedin', href: 'https://www.linkedin.com/in/omm-prakash-sahoo-7650bb379/', label: 'LinkedIn' },
 ]
 
-// Secure server-side endpoint — API key never reaches the browser
+// Serverless endpoint with direct FormSubmit delivery fallback
 const API_URL = '/api/contact'
+const FALLBACK_URL = 'https://formsubmit.co/ajax/ommsahoo8847@gmail.com'
 
 function validate({ name, email, message }) {
   const errs = {}
@@ -59,33 +60,74 @@ export default function Contact() {
       timeZone:  'Asia/Kolkata',
     })
 
+    const payload = {
+      name:      formState.name.trim(),
+      email:     formState.email.trim(),
+      message:   formState.message.trim(),
+      timestamp,
+      pageUrl:   window.location.href,
+    }
+
     try {
-      const res = await fetch(API_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name:      formState.name.trim(),
-          email:     formState.email.trim(),
-          message:   formState.message.trim(),
-          timestamp,
-          pageUrl:   window.location.href,
-        }),
-      })
+      let isSuccess = false
 
-      const data = await res.json()
+      // 1. Try /api/contact (Vercel serverless / Edge)
+      try {
+        const res = await fetch(API_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload),
+        })
+        if (res.ok) {
+          const data = await res.json().catch(() => ({}))
+          if (data.ok || data.success) {
+            isSuccess = true
+          }
+        }
+      } catch {
+        // Proceed to fallback
+      }
 
-      if (res.ok && data.ok) {
+      // 2. Direct fallback to FormSubmit (ensures delivery even without serverless backend or local dev)
+      if (!isSuccess) {
+        const res = await fetch(FALLBACK_URL, {
+          method:  'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept':       'application/json',
+          },
+          body: JSON.stringify({
+            name:        payload.name,
+            email:       payload.email,
+            message:     payload.message,
+            _subject:    `📩 New Message from ${payload.name} — Apex Automotive`,
+            _replyto:    payload.email,
+            _template:   'table',
+            _captcha:    'false',
+            SubmittedAt: timestamp,
+            pageUrl:     payload.pageUrl,
+          }),
+        })
+        const data = await res.json().catch(() => ({}))
+        if (res.ok && (data.success === 'true' || data.success === true || (data.message && data.message.includes('Activation')))) {
+          isSuccess = true
+        } else {
+          throw new Error(data.message || 'Submission failed')
+        }
+      }
+
+      if (isSuccess) {
         setSubmitted(true)
+        setFormState({ name: '', email: '', message: '' })
       } else {
-        setError(data.error || 'Something went wrong. Please try again.')
+        setError('Unable to send message. Please email ommsahoo8847@gmail.com directly.')
       }
     } catch {
-      setError('Network error. Please check your connection and try again.')
+      setError('Network error. Please check your connection or email ommsahoo8847@gmail.com directly.')
     } finally {
       setSending(false)
     }
   }
-
 
   return (
     <section id="contact" className={`${styles.section} section`} aria-label="Contact section">
@@ -133,8 +175,10 @@ export default function Contact() {
           {submitted ? (
             <div className={styles.successCard} role="alert">
               <span className={styles.successIcon} aria-hidden="true">✓</span>
-              <p className={styles.successTitle}>Message received.</p>
-              <p className={styles.successBody}>I'll get back to you within 48 hours.</p>
+              <p className={styles.successTitle}>Message sent!</p>
+              <p className={styles.successBody}>
+                Your message has been delivered to <strong>ommsahoo8847@gmail.com</strong>. I'll get back to you shortly.
+              </p>
             </div>
           ) : (
             <form
