@@ -9,9 +9,7 @@ const SOCIAL = [
   { id: 'contact-linkedin', href: 'https://www.linkedin.com/in/omm-prakash-sahoo-7650bb379/', label: 'LinkedIn' },
 ]
 
-// Serverless endpoint with direct FormSubmit delivery fallback
-const API_URL = '/api/contact'
-const FALLBACK_URL = 'https://formsubmit.co/ajax/ommsahoo8847@gmail.com'
+const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/ommsahoo8847@gmail.com'
 
 function validate({ name, email, message }) {
   const errs = {}
@@ -27,9 +25,10 @@ function validate({ name, email, message }) {
 export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
   const [fieldErrors, setFieldErrors] = useState({})
-  const [submitted,   setSubmitted]   = useState(false)
-  const [sending,     setSending]     = useState(false)
-  const [error,       setError]       = useState(null)
+  const [submitted, setSubmitted] = useState(false)
+  const [needsActivation, setNeedsActivation] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState(null)
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -57,70 +56,43 @@ export default function Contact() {
     const timestamp = new Date().toLocaleString('en-IN', {
       dateStyle: 'full',
       timeStyle: 'short',
-      timeZone:  'Asia/Kolkata',
+      timeZone: 'Asia/Kolkata',
     })
 
     const payload = {
-      name:      formState.name.trim(),
-      email:     formState.email.trim(),
-      message:   formState.message.trim(),
-      timestamp,
-      pageUrl:   window.location.href,
+      name: formState.name.trim(),
+      email: formState.email.trim(),
+      message: formState.message.trim(),
+      _subject: `📩 Apex Automotive Inquiry from ${formState.name.trim()}`,
+      _replyto: formState.email.trim(),
+      _template: 'table',
+      _captcha: 'false',
+      SubmittedAt: timestamp,
+      pageUrl: window.location.href,
     }
 
     try {
-      let isSuccess = false
+      const res = await fetch(FORMSUBMIT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
 
-      // 1. Try /api/contact (Vercel serverless / Edge)
-      try {
-        const res = await fetch(API_URL, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(payload),
-        })
-        if (res.ok) {
-          const data = await res.json().catch(() => ({}))
-          if (data.ok || data.success) {
-            isSuccess = true
-          }
-        }
-      } catch {
-        // Proceed to fallback
-      }
+      const data = await res.json().catch(() => ({}))
 
-      // 2. Direct fallback to FormSubmit (ensures delivery even without serverless backend or local dev)
-      if (!isSuccess) {
-        const res = await fetch(FALLBACK_URL, {
-          method:  'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept':       'application/json',
-          },
-          body: JSON.stringify({
-            name:        payload.name,
-            email:       payload.email,
-            message:     payload.message,
-            _subject:    `📩 New Message from ${payload.name} — Apex Automotive`,
-            _replyto:    payload.email,
-            _template:   'table',
-            _captcha:    'false',
-            SubmittedAt: timestamp,
-            pageUrl:     payload.pageUrl,
-          }),
-        })
-        const data = await res.json().catch(() => ({}))
-        if (res.ok && (data.success === 'true' || data.success === true || (data.message && data.message.includes('Activation')))) {
-          isSuccess = true
-        } else {
-          throw new Error(data.message || 'Submission failed')
-        }
-      }
-
-      if (isSuccess) {
+      if (res.ok && (data.success === 'true' || data.success === true)) {
         setSubmitted(true)
+        setNeedsActivation(false)
+        setFormState({ name: '', email: '', message: '' })
+      } else if (data.message && data.message.toLowerCase().includes('activation')) {
+        setSubmitted(true)
+        setNeedsActivation(true)
         setFormState({ name: '', email: '', message: '' })
       } else {
-        setError('Unable to send message. Please email ommsahoo8847@gmail.com directly.')
+        setError(data.message || 'Unable to deliver message. Please try again.')
       }
     } catch {
       setError('Network error. Please check your connection or email ommsahoo8847@gmail.com directly.')
@@ -175,9 +147,20 @@ export default function Contact() {
           {submitted ? (
             <div className={styles.successCard} role="alert">
               <span className={styles.successIcon} aria-hidden="true">✓</span>
-              <p className={styles.successTitle}>Message sent!</p>
+              <p className={styles.successTitle}>
+                {needsActivation ? 'Check your Gmail to activate!' : 'Message received!'}
+              </p>
               <p className={styles.successBody}>
-                Your message has been delivered to <strong>ommsahoo8847@gmail.com</strong>. I'll get back to you shortly.
+                {needsActivation ? (
+                  <>
+                    FormSubmit sent a one-time activation email to <strong>ommsahoo8847@gmail.com</strong>.<br />
+                    Click <strong>"Activate Form"</strong> in your Gmail once, and all future inquiries will arrive directly in your inbox!
+                  </>
+                ) : (
+                  <>
+                    Your message was delivered to <strong>ommsahoo8847@gmail.com</strong>. I'll get back to you within 48 hours.
+                  </>
+                )}
               </p>
             </div>
           ) : (
@@ -267,7 +250,6 @@ export default function Contact() {
                 {sending ? 'Sending…' : 'Send Message'}
               </Button>
             </form>
-
           )}
         </div>
       </div>
